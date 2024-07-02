@@ -10,9 +10,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-/**
- * @author Simpson Alfred
- */
 @Entity
 @Getter
 @Setter
@@ -31,24 +28,24 @@ public class Role {
         this.name = name;
     }
 
-    public void assignRoleToUser(User user){
+    public void assignRoleToUser(User user) {
         user.getRoles().add(this);
         this.getUsers().add(user);
     }
 
-    public void removeUserFromRole(User user){
+    public void removeUserFromRole(User user) {
         user.getRoles().remove(this);
         this.getUsers().remove(user);
-
     }
 
-    public void removeAllUsersFromRole(){
-        if (this.getUsers() != null){
+    public void removeAllUsersFromRole() {
+        if (this.getUsers() != null) {
             List<User> roleUsers = this.getUsers().stream().toList();
-            roleUsers.forEach(this :: removeUserFromRole);
+            roleUsers.forEach(this::removeUserFromRole);
         }
     }
-    public  String getName(){
-        return name != null? name : "";
+
+    public String getName() {
+        return name != null ? name : "";
     }
 }

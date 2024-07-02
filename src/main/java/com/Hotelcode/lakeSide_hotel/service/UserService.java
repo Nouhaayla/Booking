@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,24 +22,20 @@ public class UserService implements IUserService {
     private final RoleRepository roleRepository;
 
     @Override
+    @Transactional
     public User registerUser(User user) {
-        // Check if user already exists
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new UserAlreadyExistsException(user.getEmail() + " already exists");
         }
 
-        // Encode the user's password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Set the user role to ROLE_USER
         Role userRole = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("Role not found: ROLE_USER"));
-        user.setRoles(Collections.singletonList(userRole));
+        user.setRoles(Collections.singleton(userRole));
 
-        // Save the user to the database
         return userRepository.save(user);
     }
-
 
     @Override
     public List<User> getUsers() {
@@ -51,10 +46,9 @@ public class UserService implements IUserService {
     @Override
     public void deleteUser(String email) {
         User theUser = getUser(email);
-        if (theUser != null){
+        if (theUser != null) {
             userRepository.deleteByEmail(email);
         }
-
     }
 
     @Override

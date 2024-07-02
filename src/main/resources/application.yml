@@ -5,7 +5,7 @@ server:
 spring:
   datasource:
     username: root
-    password: 123456789
+    password:
     url: jdbc:mysql://localhost:3306/nova-hotel_db
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
@@ -19,11 +19,15 @@ spring:
     max-request-size: 5MB
     file-size-threshold: 2KB
 
-    security:
-        jwt:
-        secret-key: MmEwYjU1ODk2MzY5NjQ3ZTgyY2M2ZGY0NDExMmYyNzI
-        expire-length: 3600000
+auth:
+  token:
+    expirationInMils: 3600000
+    jwtSecret: MmEwYjU1ODk2MzY5NjQ3ZTgyY2M2ZGY0NDExMmYyNzI
 
+logging:
+  level:
+    org.springframework.boot.autoconfigure: INFO
+    org.springframework.boot.diagnostics: ERROR
 
 
 
